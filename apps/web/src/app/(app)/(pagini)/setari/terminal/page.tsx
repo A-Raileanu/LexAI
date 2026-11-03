@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { PageCrumbs, PageTitle } from "@/components/page-header";
+import { BackLink, PageTitle } from "@/components/page-header";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getClaudeAccount } from "@/features/settings/claude-status";
 import { parseMode } from "@/features/terminal/modes";
@@ -35,7 +35,7 @@ export default function TerminalPage(props: PageProps<"/setari/terminal">) {
   return (
     <div className="mx-auto flex w-full max-w-[1100px] flex-col gap-6 px-4 py-8 sm:px-8">
       <div>
-        <PageCrumbs crumbs={[{ label: "Setări", href: "/setari" }]} current="Terminal Claude" />
+        <BackLink href="/setari" label="Setări" />
         <PageTitle title="Terminal Claude" description="Conectează, verifică sau schimbă contul Claude folosit de LexAI." />
       </div>
       <Suspense fallback={<TerminalSkeleton />}>

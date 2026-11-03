@@ -20,7 +20,6 @@ import { useState, type ReactNode } from "react";
 import { SequenceKeys, ThemeRadioItems } from "@/components/app-shell/app-menu";
 import { openCommandPalette } from "@/components/app-shell/command-palette";
 import { Brand } from "@/components/brand";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import {
@@ -195,12 +194,12 @@ interface Props {
   onShortcuts: () => void;
 }
 
-/** Antetul editorului (48 px): breadcrumb cu titlul editabil, starea salvării, acțiunile. */
+/** Antetul editorului (48 px): „Înapoi la proiect”, titlul editabil, starea salvării, acțiunile. */
 export function EditorHeader(p: Props) {
   const [editing, setEditing] = useState(false);
   return (
     <header data-titlebar className="flex h-12 shrink-0 items-center gap-1 border-b bg-background px-2 sm:px-3">
-      {/* fără bară globală: ◆ duce acasă; sub 640 px îl înlocuiește „‹” spre proiect (docs/ux/17) */}
+      {/* fără bară globală: ◆ duce acasă (ascuns sub 640 px, docs/ux/17) */}
       <Tooltip>
         <TooltipTrigger render={<Link href="/" aria-label="LexAI — Proiecte" className={cn(buttonVariants({ variant: "ghost", size: "icon-sm" }), "hidden sm:inline-flex")} />}>
           <Brand compact />
@@ -210,27 +209,19 @@ export function EditorHeader(p: Props) {
         </TooltipContent>
       </Tooltip>
       <Separator orientation="vertical" className="mx-1 hidden h-5 self-center sm:block" />
-      <Tooltip>
-        <TooltipTrigger render={<Link href={`/proiecte/${p.project.id}`} aria-label={`Înapoi la ${p.project.name}`} className={cn(buttonVariants({ variant: "ghost", size: "icon-sm" }), "sm:hidden")} />}>
-          <IconChevronLeft />
-        </TooltipTrigger>
-        <TooltipContent>Înapoi la proiect</TooltipContent>
-      </Tooltip>
-      <Breadcrumb className="min-w-0">
-        <BreadcrumbList className="flex-nowrap">
-          <BreadcrumbItem className="hidden min-w-0 sm:inline-flex">
-            <BreadcrumbLink render={<Link href={`/proiecte/${p.project.id}`} />} className="max-w-32 truncate lg:max-w-48">
-              {p.project.name}
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator className="hidden sm:inline-flex">/</BreadcrumbSeparator>
-          <BreadcrumbItem className="min-w-0">
-            <BreadcrumbPage className="min-w-0">
-              <TitleEditor title={p.title} onRename={p.onRename} editing={editing} setEditing={setEditing} />
-            </BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+      {/* fără breadcrumb: „‹ Înapoi la proiect” (sub 640 px doar „‹”), apoi titlul documentului */}
+      <Link
+        href={`/proiecte/${p.project.id}`}
+        aria-label={`Înapoi la ${p.project.name}`}
+        className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "min-w-0 shrink-0 gap-0.5 px-1.5 text-muted-foreground hover:text-foreground sm:shrink")}
+      >
+        <IconChevronLeft className="shrink-0" />
+        <span className="hidden max-w-32 truncate sm:inline lg:max-w-48">Înapoi la {p.project.name}</span>
+      </Link>
+      <Separator orientation="vertical" className="mx-1 hidden h-5 self-center sm:block" />
+      <div className="flex min-w-0">
+        <TitleEditor title={p.title} onRename={p.onRename} editing={editing} setEditing={setEditing} />
+      </div>
       <SaveChip state={p.save} open={p.saveOpen} onOpenChange={p.onSaveOpenChange} onSaveVersion={p.onSaveVersion} onRetry={p.onRetrySave} disabled={p.readOnly} />
 
       <div className="ms-auto flex shrink-0 items-center gap-1.5">

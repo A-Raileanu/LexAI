@@ -49,14 +49,15 @@ Suprafețe gri închis, niciodată negru pur (GitBook, Databricks, Air). Foaia A
 ┌──────────────────────────────────────────────────────────────────────────────────────┐
 │ ◆ LexAI   Proiecte  Utilizare  Setări        [⌕ Caută… ⌘K]  [● 5h 11% · 7z 18%]  (◎) │ 48 px
 └──────────────────────────────────────────────────────────────────────────────────────┘
-        Proiecte ›                                        ← PageCrumbs (doar strămoșii)
+        ‹ Înapoi la Dosar                                 ← BackLink (spre pagina părinte)
         Titlul paginii                          acțiuni
         conținutul paginii (pe toată lățimea, centrat)
 ```
 - O singură bară de sus, 48 px, cu hairline jos; activul e subliniat. Pe ecran îngust: `◆ LexAI … [⌕] [☰]`, cu foaia „Meniu”.
 - Proiectele fixate: comutatorul ⇅ de lângă titlul proiectului, grupul „Fixate” din ⌘K, primele în lista de pe `/`.
 - Paleta de comenzi `⌘K` peste tot (`16-command-palette.md`); `G P` / `G U` / `G S` duc la Proiecte / Utilizare / Setări.
-- Editorul nu are bara globală: antetul lui (◆ + `{proiect} / {titlu}`) e singura bară.
+- Editorul nu are bara globală: antetul lui (◆ · `‹ Înapoi la {proiect}` · `{titlu}`) e singura bară.
+- **Fără breadcrumb, nicăieri** (decizia utilizatorului, 2026-11-03): subpaginile au deasupra titlului linkul „‹ Înapoi la X” (`BackLink`). Mențiunile de breadcrumb din documentele pe pagini sunt înlocuite de această regulă.
 
 ## Comportamente comune
 - Setările se salvează imediat, cu toast de confirmare (Mistral).

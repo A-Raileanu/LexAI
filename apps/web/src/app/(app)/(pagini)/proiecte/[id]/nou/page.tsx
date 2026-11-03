@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { Suspense } from "react";
-import { PageCrumbs } from "@/components/page-header";
+import { BackLink } from "@/components/page-header";
 import { Skeleton } from "@/components/ui/skeleton";
 import { NewDocumentForm } from "@/features/drafting/new-document-form";
 import { listContextFiles } from "@/server/context-files";
@@ -18,14 +18,9 @@ async function Content({ params }: { params: PageProps<"/proiecte/[id]/nou">["pa
   if (!project) notFound();
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-8">
-      <PageCrumbs
-        crumbs={[
-          { label: "Proiecte", href: "/" },
-          { label: project.name, href: `/proiecte/${id}` },
-        ]}
-        current="Document nou"
-        className="mx-auto max-w-2xl"
-      />
+      <div className="mx-auto max-w-2xl">
+        <BackLink href={`/proiecte/${id}`} label={project.name} />
+      </div>
       <NewDocumentForm
         projectId={id}
         projectName={project.name}

@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { PageCrumbs } from "@/components/page-header";
+import { BackLink } from "@/components/page-header";
 import { toast } from "@/components/ui/toast";
 import { rerunDraftingAction } from "./actions";
 import { GenerationView } from "./generation-view";
@@ -56,13 +56,7 @@ export function GenerationPage({ title, project, draft }: { title: string; proje
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-col gap-6">
       <div className="min-w-0">
-        <PageCrumbs
-          crumbs={[
-            { label: "Proiecte", href: "/" },
-            { label: project.name, href: `/proiecte/${project.id}` },
-          ]}
-          current={title}
-        />
+        <BackLink href={`/proiecte/${project.id}`} label={project.name} />
         <h1 className="truncate text-xl font-semibold tracking-tight">{title}</h1>
       </div>
       <div className="overflow-hidden rounded-xl bg-card inset-ring-(length:--hairline) inset-ring-border">

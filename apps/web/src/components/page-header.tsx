@@ -1,31 +1,17 @@
+import { IconChevronLeft } from "@tabler/icons-react";
 import Link from "next/link";
-import { Fragment } from "react";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { cn } from "@/lib/utils";
 
-/**
- * Locația paginii, deasupra titlului: doar strămoșii, ca linkuri („Proiecte › Dosar ›”).
- * Pagina curentă rămâne doar pentru cititoarele de ecran, fiindcă `h1` e chiar dedesubt.
- */
-export function PageCrumbs({ crumbs, current, className }: { crumbs: { label: string; href: string }[]; current: string; className?: string }) {
+/** Legătura spre pagina părinte, deasupra titlului: „‹ Înapoi la Dosar”. Nu folosim breadcrumb. */
+export function BackLink({ href, label, className }: { href: string; label: string; className?: string }) {
   return (
-    <Breadcrumb aria-label="Locație" className={cn("mb-1.5", className)}>
-      <BreadcrumbList className="flex-nowrap text-[13px]">
-        {crumbs.map((c) => (
-          <Fragment key={c.href}>
-            <BreadcrumbItem className="min-w-0">
-              <BreadcrumbLink render={<Link href={c.href} />} className="max-w-60 truncate">
-                {c.label}
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator>›</BreadcrumbSeparator>
-          </Fragment>
-        ))}
-        <BreadcrumbItem className="sr-only">
-          <BreadcrumbPage>{current}</BreadcrumbPage>
-        </BreadcrumbItem>
-      </BreadcrumbList>
-    </Breadcrumb>
+    <Link
+      href={href}
+      className={cn("mb-1.5 -ms-1 inline-flex max-w-full items-center gap-0.5 rounded-md px-1 text-[13px] text-muted-foreground transition-colors hover:text-foreground", className)}
+    >
+      <IconChevronLeft className="size-3.5 shrink-0" aria-hidden />
+      <span className="truncate">Înapoi la {label}</span>
+    </Link>
   );
 }
 

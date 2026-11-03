@@ -1,0 +1,39 @@
+{
+  "name": "@lexai/core",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./types": "./src/types.ts",
+    "./labels": "./src/labels.ts",
+    "./usage": "./src/usage.ts",
+    "./text": "./src/text/index.ts",
+    "./document": "./src/document/index.ts",
+    "./findings": "./src/analysis/findings.ts",
+    "./analysis": "./src/analysis/index.ts",
+    "./report": "./src/report/index.ts",
+    "./parse": "./src/parse/index.ts",
+    "./redactare": "./src/redactare/index.ts",
+    "./chat": "./src/chat/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@lexai/ai": "workspace:*",
+    "@lexai/sources": "workspace:*",
+    "cheerio": "^1.2.0",
+    "domhandler": "^6.0.1",
+    "jszip": "^3.10.2",
+    "mammoth": "^1.13.0",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "6.3.289",
+    "pdfmake": "0.3.12",
+    "word-extractor": "^1.0.4",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/pdfmake": "^0.3.3"
+  }
+}

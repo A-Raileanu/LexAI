@@ -1,0 +1,17 @@
+{
+  "name": "@lexai/docx",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0",
+    "docx": "9.5.1",
+    "jszip": "^3.10.2"
+  }
+}

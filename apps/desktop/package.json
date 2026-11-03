@@ -1,0 +1,23 @@
+{
+  "name": "@lexai/desktop",
+  "private": true,
+  "version": "0.1.0",
+  "description": "LexAI \u2014 aplica\u021bia desktop (Electron)",
+  "author": "LexAI",
+  "type": "module",
+  "main": "dist/main.cjs",
+  "scripts": {
+    "dev": "node scripts/build-main.mjs && electron .",
+    "build": "node scripts/build-main.mjs && node scripts/stage.mjs",
+    "dist": "pnpm run build && electron-builder --config electron-builder.config.cjs",
+    "dist:all": "node scripts/build-main.mjs && node scripts/stage.mjs --targets=mac-arm64,mac-x64,win-x64 && electron-builder --config electron-builder.config.cjs --mac --arm64 --x64 && electron-builder --config electron-builder.config.cjs --win --x64",
+    "typecheck": "tsc --noEmit -p .",
+    "release": "node scripts/build-main.mjs && node scripts/stage.mjs --targets=mac-arm64,mac-x64,win-x64 && electron-builder --config electron-builder.config.cjs --mac --arm64 --x64 --publish always && electron-builder --config electron-builder.config.cjs --win --x64 --publish always"
+  },
+  "devDependencies": {
+    "electron": "45.2.1",
+    "electron-builder": "26.18.0",
+    "electron-updater": "6.8.12",
+    "esbuild": "^0.28.2"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1793547638328,
+      "tag": "0000_worried_prima",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1793548144709,
+      "tag": "0001_condemned_iceman",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1793557227548,
+      "tag": "0002_finding_action_signature",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1793564481234,
+      "tag": "0003_chat_messages",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1793600203198,
+      "tag": "0004_fara_autentificare",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1793612236783,
+      "tag": "0005_context_proiect",
+      "breakpoints": true
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "@lexai/ai",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": { ".": "./src/index.ts", "./usage": "./src/usage.ts", "./model": "./src/model.ts" },
+  "scripts": { "typecheck": "tsc --noEmit -p ." },
+  "dependencies": {}
+}

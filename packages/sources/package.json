@@ -1,0 +1,17 @@
+{
+  "name": "@lexai/sources",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./text": "./src/text.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@lexai/ai": "workspace:*",
+    "zod": "^4.6.7"
+  }
+}

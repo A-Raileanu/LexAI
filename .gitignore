@@ -1,0 +1,21 @@
+node_modules
+.next
+out
+build
+dist
+coverage
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+.env*
+!.env.example
+# datele aplicației: baza de date, fișierele încărcate, cheia secretă, backup-uri
+/data/
+# rezultatele evaluărilor locale
+/evals/results/
+.next-desktop
+# aplicația desktop: etapa de împachetare și rezultatul
+/apps/desktop/stage/
+/apps/desktop/release/
+# setările locale Claude Code (permisiuni)
+.claude/settings.local.json

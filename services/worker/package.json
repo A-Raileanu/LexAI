@@ -1,0 +1,22 @@
+{
+  "name": "@lexai/worker",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --clear-screen=false src/index.ts",
+    "start": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@lexai/ai": "workspace:*",
+    "@lexai/core": "workspace:*",
+    "@lexai/db": "workspace:*",
+    "@lexai/docx": "workspace:*",
+    "@lexai/source-jurisprudenta": "workspace:*",
+    "@lexai/source-portal-legislativ": "workspace:*",
+    "@lexai/source-web-oficial": "workspace:*",
+    "@lexai/sources": "workspace:*",
+    "zod": "^4.6.7"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "@lexai/terminal",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    "./ticket": "./src/ticket.ts"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@lexai/ai": "workspace:*",
+    "@lexai/db": "workspace:*",
+    "node-pty": "^1.1.0",
+    "ws": "^8.22.1"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.18.2"
+  }
+}

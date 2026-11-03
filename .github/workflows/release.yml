@@ -1,0 +1,82 @@
+# Publică o versiune nouă a aplicației desktop în GitHub Releases, de unde o iau actualizările
+# automate (electron-updater). Pornește la un tag „v<versiune>” egal cu versiunea din
+# apps/desktop/package.json:
+#
+#   git tag v0.2.0 && git push origin v0.2.0
+#
+# Construiește pe un singur Mac: DMG + ZIP pentru Apple Silicon și Intel, instalatorul Windows x64.
+#
+# Variabile și secrete (Settings → Secrets and variables → Actions), toate opționale:
+# - vars.LEXAI_UPDATES_REPO: „proprietar/repo” unde se publică (implicit acest repo);
+#   secrets.RELEASES_TOKEN: token cu drept de scriere pe acel repo, dacă e altul decât acesta.
+# - secrets.CSC_LINK (certificatul Developer ID .p12, în base64) și secrets.CSC_KEY_PASSWORD:
+#   semnare reală pe macOS, necesară pentru actualizarea automată pe Mac.
+# - secrets.APPLE_ID, APPLE_APP_SPECIFIC_PASSWORD, APPLE_TEAM_ID: notarizarea la Apple.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  desktop:
+    runs-on: macos-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Dependențe
+        run: pnpm install --frozen-lockfile
+
+      - name: Versiunea din tag corespunde cu package.json
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          version=$(node -p "require('./apps/desktop/package.json').version")
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tagul $GITHUB_REF_NAME nu corespunde versiunii $version din apps/desktop/package.json"
+            exit 1
+          fi
+
+      - name: Verificări
+        run: |
+          pnpm typecheck
+          pnpm lint
+          pnpm test
+
+      - name: Construiește și publică
+        env:
+          GH_TOKEN: ${{ secrets.RELEASES_TOKEN || secrets.GITHUB_TOKEN }}
+          LEXAI_UPDATES_REPO: ${{ vars.LEXAI_UPDATES_REPO || github.repository }}
+          CSC_LINK: ${{ secrets.CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          # fără certificat: semnătură ad-hoc, fără căutarea unei identități în keychain
+          CSC_IDENTITY_AUTO_DISCOVERY: ${{ secrets.CSC_LINK != '' }}
+        run: pnpm --filter @lexai/desktop release
+
+      # electron-builder încarcă totul într-o ciornă; o publicăm abia când sunt toate fișierele,
+      # ca aplicațiile să nu vadă o versiune pe jumătate încărcată
+      - name: Publică versiunea
+        env:
+          GH_TOKEN: ${{ secrets.RELEASES_TOKEN || secrets.GITHUB_TOKEN }}
+          REPO: ${{ vars.LEXAI_UPDATES_REPO || github.repository }}
+        run: |
+          version=$(node -p "require('./apps/desktop/package.json').version")
+          gh release edit "v$version" --repo "$REPO" --draft=false --latest

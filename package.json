@@ -1,0 +1,29 @@
+{
+  "name": "lexai",
+  "private": true,
+  "packageManager": "pnpm@12.14.0",
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --parallel --filter @lexai/web --filter @lexai/worker --filter @lexai/terminal dev",
+    "build": "pnpm --filter @lexai/web build",
+    "desktop": "pnpm --filter @lexai/desktop dev",
+    "desktop:dist": "pnpm --filter @lexai/desktop dist",
+    "desktop:dist:all": "pnpm --filter @lexai/desktop dist:all",
+    "start": "pnpm --parallel --filter @lexai/web --filter @lexai/worker --filter @lexai/terminal start",
+    "typecheck": "pnpm -r --parallel typecheck",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "db:generate": "pnpm --filter @lexai/db generate",
+    "db:migrate": "pnpm --filter @lexai/db migrate",
+    "backup": "pnpm --filter @lexai/db backup",
+    "postinstall": "node scripts/fix-node-pty.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^24",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.3",
+    "tsx": "^4.23.15",
+    "typescript": "^5",
+    "vitest": "^5.0.5"
+  }
+}

@@ -1,0 +1,714 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-heading: var(--font-sans);
+    --font-sans: var(--font-sans);
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar: var(--sidebar);
+    --color-chart-5: var(--chart-5);
+    --color-chart-4: var(--chart-4);
+    --color-chart-3: var(--chart-3);
+    --color-chart-2: var(--chart-2);
+    --color-chart-1: var(--chart-1);
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    --radius-sm: calc(var(--radius) * 0.6);
+    --radius-md: calc(var(--radius) * 0.8);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 1.4);
+    --radius-2xl: calc(var(--radius) * 1.8);
+    --radius-3xl: calc(var(--radius) * 2.2);
+    --radius-4xl: calc(var(--radius) * 2.6);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-success: var(--success);
+    --color-success-foreground: var(--success-foreground);
+    --color-info: var(--info);
+    --color-info-foreground: var(--info-foreground);
+    --color-warning: var(--warning);
+    --color-warning-foreground: var(--warning-foreground);
+    --color-focus-ring: color-mix(in oklab, var(--foreground) 60%, transparent);
+    --color-canvas: Canvas;
+    --color-canvas-text: CanvasText;
+    --color-highlight: Highlight;
+    --color-highlight-text: HighlightText;
+    --color-gray-text: GrayText;
+    --font-weight-book: 520;
+    --ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+    --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+    --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
+    --ease-spring: linear(0, 0.015 2%, 0.0532 4%, 0.1065 6%, 0.1686 8%, 0.2351 10%, 0.3363 13%, 0.4332 16%, 0.5495 20%, 0.648 24%, 0.7287 28%, 0.807 33%, 0.8646 38%, 0.9128 44%, 0.9447 50%, 0.968 57%, 0.9834 65%, 0.9924 74%, 0.9975 85%, 1);
+    --default-border-width: var(--hairline);
+    --text-xs: 0.6875rem;
+    --text-sm: 0.8125rem;
+    --text-base: 0.9375rem;
+    --text-lg: 1.0625rem;
+    --text-xl: 1.1875rem;
+    --text-2xl: 1.4375rem;
+    --text-3xl: 1.8125rem;
+    --text-4xl: 2.1875rem;
+    --text-5xl: 2.9375rem;
+    --text-6xl: 3.6875rem;
+    --text-7xl: 4.4375rem;
+    --text-8xl: 5.9375rem;
+    --text-9xl: 7.9375rem;
+    --text-touch: max(16px, 1rem);
+    --animate-shimmer: shimmer 1.6s ease-in-out infinite;
+    --animate-skeleton-pulse: skeleton-pulse 2s ease-in-out infinite;
+    --animate-button-state-in: button-state-in 220ms cubic-bezier(0.2, 0, 0, 1) both;
+    --animate-button-state-out: button-state-out 220ms cubic-bezier(0.2, 0, 0, 1) both;
+    --animate-button-draw-circle: button-draw 240ms cubic-bezier(0.2, 0, 0, 1) both;
+    --animate-button-draw-check: button-draw 180ms cubic-bezier(0.2, 0, 0, 1) 180ms both;
+    --animate-spinner-rotate: spinner-rotate 0.9s linear infinite;
+    --animate-spinner-dash: spinner-dash 1.5s ease-in-out infinite;
+    --animate-spinner-ticks: spinner-rotate 0.8s steps(8, end) infinite;
+    --animate-spinner-pulse: spinner-pulse 1.6s ease-in-out infinite;
+    --animate-progress-slide: progress-slide 1.6s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    --animate-checkbox-draw: button-draw 200ms cubic-bezier(0.2, 0, 0, 1) 40ms both;
+    --animate-button-shake: button-shake 320ms cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    --animate-avatar-badge-pulse: avatar-badge-pulse 700ms cubic-bezier(0.215, 0.61, 0.355, 1) both;
+    --animate-menu-blink: menu-blink 120ms steps(1, end) both;
+    --animate-input-otp-wave: input-otp-wave 1.2s ease-in-out infinite;
+    --animate-input-otp-pulse: input-otp-pulse 1.2s ease-in-out infinite;
+    --animate-input-otp-pop: input-otp-pop 360ms cubic-bezier(0.23, 1, 0.32, 1) both;
+    --animate-empty-in: empty-in 480ms cubic-bezier(0.23, 1, 0.32, 1) var(--empty-delay, 0ms) both;
+    --animate-message-in: message-in 420ms linear(0, 0.015 2%, 0.0532 4%, 0.1065 6%, 0.1686 8%, 0.2351 10%, 0.3363 13%, 0.4332 16%, 0.5495 20%, 0.648 24%, 0.7287 28%, 0.807 33%, 0.8646 38%, 0.9128 44%, 0.9447 50%, 0.968 57%, 0.9834 65%, 0.9924 74%, 0.9975 85%, 1) both;
+    --animate-video-player-flash: video-player-flash 650ms cubic-bezier(0.23, 1, 0.32, 1) both;
+    --ease-island-expand: linear(0, 0.0063 1.5%, 0.0238 3%, 0.0558 4.8%, 0.104 6.8%, 0.2083 10.2%, 0.4514 17.5%, 0.5551 20.8%, 0.6562 24.2%, 0.7384 27.5%, 0.8035 30.5%, 0.8624 33.8%, 0.9101 37%, 0.9475 40.2%, 0.9796 44%, 1.0029 48%, 1.0187 52.5%, 1.0268 57.5%, 1.0267 66.5%, 1);
+    --ease-island-snappy: linear(0, 0.0048 1.2%, 0.0217 2.8%, 0.0535 4.5%, 0.0953 6.2%, 0.1899 9.5%, 0.4093 16.2%, 0.5097 19.5%, 0.6077 23%, 0.6873 26.2%, 0.7555 29.5%, 0.8126 32.8%, 0.8628 36.2%, 0.9025 39.8%, 0.9387 44%, 0.9656 48.5%, 0.9849 53.5%, 0.9973 59%, 1.0062 72.5%, 1);
+    --ease-island-collapse: linear(0, 0.0052 1.2%, 0.0194 2.5%, 0.0458 4%, 0.0797 5.5%, 0.1622 8.5%, 0.3617 15%, 0.4562 18.2%, 0.5484 21.8%, 0.629 25.2%, 0.6934 28.5%, 0.7521 32%, 0.804 35.8%, 0.846 39.5%, 0.8855 44%, 0.9182 49%, 0.944 54.5%, 0.9639 60.8%, 0.9875 75.5%, 1);
+    --ease-island-exit: linear(0, 0.0052 1.2%, 0.0195 2.5%, 0.0459 4%, 0.0799 5.5%, 0.1625 8.5%, 0.3622 15%, 0.4569 18.2%, 0.5491 21.8%, 0.6297 25.2%, 0.6941 28.5%, 0.7527 32%, 0.8045 35.8%, 0.8465 39.5%, 0.8859 44%, 0.9186 49%, 0.9442 54.5%, 0.964 60.8%, 0.9876 75.5%, 1);
+    --ease-island-bump: linear(0, 0.2143 1.2%, 0.4342 2.8%, 0.6144 4.2%, 0.7568 5.8%, 0.8636 7.2%, 0.9376 8.8%, 0.9818 10.2%, 0.9999 12%, 0.9682 14.8%, 0.8602 18%, 0.7183 21%, 0.2816 29.2%, 0.0771 34%, -0.058 38.5%, -0.1348 43%, -0.1613 47%, -0.155 51.7%, -0.0209 69%, 0.0192 78%, 0.0245 89%, 0);
+    --ease-island-shake: linear(0, 0.2731 1.2%, 0.4629 2.2%, 0.625 3.2%, 0.7579 4.2%, 0.8612 5.2%, 0.9352 6.2%, 0.9808 7.2%, 1 8.5%, 0.9877 9.5%, 0.9535 10.5%, 0.8109 12.8%, 0.6306 14.8%, 0.0949 20%, -0.1525 23%, -0.2437 24.5%, -0.301 25.8%, -0.3674 28.5%, -0.3681 30.5%, -0.3303 32.8%, -0.2631 35%, 0.0353 43.2%, 0.1036 46.2%, 0.1355 49.2%, 0.1234 53.8%, -0.0127 64.2%, -0.0493 69.8%, -0.0461 74.8%, 0.0167 89.5%, 0.0151 97.2%, 0);
+    --animate-island-bump: island-bump 480ms linear(0, 0.2143 1.2%, 0.4342 2.8%, 0.6144 4.2%, 0.7568 5.8%, 0.8636 7.2%, 0.9376 8.8%, 0.9818 10.2%, 0.9999 12%, 0.9682 14.8%, 0.8602 18%, 0.7183 21%, 0.2816 29.2%, 0.0771 34%, -0.058 38.5%, -0.1348 43%, -0.1613 47%, -0.155 51.7%, -0.0209 69%, 0.0192 78%, 0.0245 89%, 0);
+    --animate-island-shake: island-shake 450ms linear(0, 0.2731 1.2%, 0.4629 2.2%, 0.625 3.2%, 0.7579 4.2%, 0.8612 5.2%, 0.9352 6.2%, 0.9808 7.2%, 1 8.5%, 0.9877 9.5%, 0.9535 10.5%, 0.8109 12.8%, 0.6306 14.8%, 0.0949 20%, -0.1525 23%, -0.2437 24.5%, -0.301 25.8%, -0.3674 28.5%, -0.3681 30.5%, -0.3303 32.8%, -0.2631 35%, 0.0353 43.2%, 0.1036 46.2%, 0.1355 49.2%, 0.1234 53.8%, -0.0127 64.2%, -0.0493 69.8%, -0.0461 74.8%, 0.0167 89.5%, 0.0151 97.2%, 0);
+    --animate-island-flash: island-flash 400ms cubic-bezier(0.23, 1, 0.32, 1);
+    --animate-island-check: button-draw 260ms cubic-bezier(0.23, 1, 0.32, 1) 140ms both;
+    --animate-island-text-in: island-text-in 240ms cubic-bezier(0.23, 1, 0.32, 1) both;
+    --animate-text-shimmer: text-shimmer 2s linear infinite;
+  @keyframes island-bump {
+  to {
+    scale: 1.04;
+        }
+    }
+  @keyframes island-shake {
+  to {
+    translate: 8px 0;
+        }
+    }
+  @keyframes island-flash {
+  0%, 50%, 100% {
+    opacity: 0;
+        }
+  25%, 75% {
+    opacity: 1;
+        }
+    }
+  @keyframes island-text-in {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+    scale: 0.96;
+        }
+    }
+  @keyframes message-in {
+  from {
+    opacity: 0;
+    translate: 0 0.5rem;
+    scale: 0.96;
+        }
+    }
+  @keyframes video-player-flash {
+  from {
+    opacity: 0;
+    scale: var(--video-player-flash-from, 0.9);
+        }
+  20%, 55% {
+    opacity: 1;
+    scale: 1;
+        }
+  to {
+    opacity: 0;
+    scale: var(--video-player-flash-to, 1.08);
+        }
+    }
+  @keyframes empty-in {
+  from {
+    opacity: 0;
+    translate: 0 0.375rem;
+    filter: blur(2px);
+        }
+    }
+  @keyframes shimmer {
+  from {
+    translate: calc(-100% * var(--skeleton-dir, 1)) 0;
+        }
+  to {
+    translate: calc(100% * var(--skeleton-dir, 1)) 0;
+        }
+    }
+  @keyframes skeleton-pulse {
+  0%, 100% {
+    opacity: 0;
+        }
+  50% {
+    opacity: 0.5;
+        }
+    }
+  @keyframes button-state-in {
+  from {
+    opacity: 0;
+    transform: perspective(220px) rotateX(90deg) translateY(0.75rem);
+        }
+  to {
+    opacity: 1;
+    transform: perspective(220px) rotateX(0) translateY(0);
+        }
+    }
+  @keyframes button-state-out {
+  from {
+    opacity: 1;
+    transform: perspective(220px) rotateX(0) translateY(0);
+        }
+  50% {
+    opacity: 0;
+        }
+  to {
+    opacity: 0;
+    transform: perspective(220px) rotateX(-90deg) translateY(-0.75rem);
+        }
+    }
+  @keyframes spinner-rotate {
+  to {
+    rotate: 360deg;
+        }
+    }
+  @keyframes spinner-dash {
+  0% {
+    stroke-dasharray: 1 60;
+    stroke-dashoffset: 0;
+        }
+  50% {
+    stroke-dasharray: 34 60;
+    stroke-dashoffset: -12;
+        }
+  100% {
+    stroke-dasharray: 34 60;
+    stroke-dashoffset: -56;
+        }
+    }
+  @keyframes progress-slide {
+  from {
+    translate: calc(-100% * var(--progress-dir, 1)) 0;
+        }
+  to {
+    translate: calc(250% * var(--progress-dir, 1)) 0;
+        }
+    }
+  @keyframes spinner-pulse {
+  0%, 100% {
+    opacity: 1;
+        }
+  50% {
+    opacity: 0.4;
+        }
+    }
+  @keyframes button-draw {
+  to {
+    stroke-dashoffset: 0;
+        }
+    }
+  @keyframes avatar-badge-pulse {
+  from {
+    scale: 1;
+    opacity: 0.5;
+        }
+  to {
+    scale: 2.6;
+    opacity: 0;
+        }
+    }
+  @keyframes menu-blink {
+  0% {
+    background-color: transparent;
+        }
+  50%, 100% {
+    background-color: var(--menu-blink, var(--color-accent));
+        }
+    }
+  @keyframes input-otp-wave {
+  0%, 60%, 100% {
+    translate: 0 0;
+    opacity: 1;
+        }
+  30% {
+    translate: 0 -0.18em;
+    opacity: 0.45;
+        }
+    }
+  @keyframes input-otp-pulse {
+  0%, 100% {
+    opacity: 1;
+        }
+  50% {
+    opacity: 0.45;
+        }
+    }
+  @keyframes input-otp-pop {
+  0% {
+    scale: 1;
+        }
+  40% {
+    scale: 1.16;
+        }
+  100% {
+    scale: 1;
+        }
+    }
+  @keyframes button-shake {
+  0%, 100% {
+    translate: 0;
+        }
+  20% {
+    translate: -3px;
+        }
+  40% {
+    translate: 3px;
+        }
+  60% {
+    translate: -2px;
+        }
+  80% {
+    translate: 2px;
+        }
+    }
+  @keyframes text-shimmer {
+  from {
+    background-position: 100% 0;
+        }
+  to {
+    background-position: -100% 0;
+        }
+    }
+  @keyframes testimonial-marquee {
+  from {
+    transform: translateX(0);
+        }
+  to {
+    transform: translateX(-50%);
+        }
+    }
+}
+
+:root {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary: oklch(0.205 0 0);
+    --primary-foreground: oklch(0.985 0 0);
+    --secondary: oklch(0.97 0 0);
+    --secondary-foreground: oklch(0.205 0 0);
+    --muted: oklch(0.97 0 0);
+    --muted-foreground: oklch(0.556 0 0);
+    --accent: oklch(0.97 0 0);
+    --accent-foreground: oklch(0.205 0 0);
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: oklch(0.922 0 0);
+    --input: oklch(0.922 0 0);
+    --ring: oklch(0.708 0 0);
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    --radius: 0.625rem;
+    --sidebar: oklch(0.985 0 0);
+    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-primary: oklch(0.205 0 0);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.97 0 0);
+    --sidebar-accent-foreground: oklch(0.205 0 0);
+    --sidebar-border: oklch(0.922 0 0);
+    --sidebar-ring: oklch(0.708 0 0);
+    --destructive-foreground: oklch(0.985 0 0);
+    --success: oklch(0.527 0.154 150);
+    --success-foreground: oklch(0.985 0 0);
+    --info: oklch(0.546 0.215 262);
+    --info-foreground: oklch(0.985 0 0);
+    --warning: oklch(0.555 0.163 49);
+    --warning-foreground: oklch(0.985 0 0);
+    --hairline: 1px;
+}
+
+.dark {
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.205 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.205 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.922 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.556 0 0);
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.488 0.243 264.376);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.556 0 0);
+    --destructive-foreground: oklch(0.205 0 0);
+    --success: oklch(0.792 0.209 151.7);
+    --success-foreground: oklch(0.205 0 0);
+    --info: oklch(0.707 0.165 254.6);
+    --info-foreground: oklch(0.205 0 0);
+    --warning: oklch(0.828 0.189 84.4);
+    --warning-foreground: oklch(0.205 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    }
+  body {
+    @apply bg-background text-foreground;
+    position: relative;
+    }
+  button:not(:disabled), [role="button"]:not(:disabled) {
+    cursor: pointer;
+    }
+  html {
+    @apply font-sans;
+    }
+  :where(a, button, input, label, select, summary, textarea, [role="button"]) {
+    touch-action: manipulation;
+    }
+}
+
+@utility text-hero {
+    font-size: min(calc((100vw - 1.5rem) / 15.75), 2.6875rem);
+    line-height: 1.3;
+}
+
+@utility border-hairline {
+    border-width: var(--hairline);
+}
+
+@utility text-shimmer {
+    background-image: linear-gradient(90deg, var(--muted-foreground) 25%, var(--info) 40%, color-mix(in oklab, var(--info) 45%, white) 50%, var(--info) 60%, var(--muted-foreground) 75%);
+    background-size: 250% 100%;
+    background-clip: text;
+    color: transparent;
+    animation: var(--animate-text-shimmer);
+}
+
+@media (min-resolution: 1.5dppx) {
+  :root {
+    --hairline: calc(1px / 1.5);
+    }
+}
+
+@media (min-resolution: 2dppx) {
+  :root {
+    --hairline: 0.5px;
+    }
+}
+
+@media (min-resolution: 3dppx) {
+  :root {
+    --hairline: calc(1px / 3);
+    }
+}
+
+@media (min-resolution: 4dppx) {
+  :root {
+    --hairline: 0.25px;
+    }
+}
+  @property --scroller-fade-start {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0px;
+}
+  @property --scroller-fade-end {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0px;
+}
+/* ───────────── LexAI: stări, accent AI, documentul A4 (docs/ux/00-directie.md) ───────────── */
+:root {
+  --ai: oklch(0.51 0.2 277);
+  --ai-soft: oklch(0.96 0.025 277);
+  --v-eroare: oklch(0.577 0.215 27);
+  --v-discutabil: oklch(0.666 0.157 58);
+  --v-uman: oklch(0.541 0.2 300);
+  --v-neverificat: oklch(0.556 0.015 260);
+  --v-corect: oklch(0.596 0.145 163);
+  --desk: oklch(0.967 0.003 265);
+  --paper: oklch(1 0 0);
+  --paper-foreground: oklch(0.2 0 0);
+  --placeholder-bg: oklch(0.95 0.08 95);
+  /* panoul de rezultate (docs/ux/08b-rezultate-analiza-revizie.md, 5.1): text secundar, separatoare,
+     focus și culorile de stare pentru text (-fg, ≥ 4,5:1) și fundal (-bg); --v-* rămân marcaje */
+  --fg-2: oklch(0.45 0 0);
+  --fg-3: oklch(0.53 0 0);
+  --divider: oklch(0.88 0 0);
+  --focus-strong: oklch(0.45 0 0);
+  --v-eroare-fg: oklch(0.505 0.19 27);
+  --v-eroare-bg: oklch(0.971 0.013 17);
+  --v-discutabil-fg: oklch(0.473 0.137 46);
+  --v-discutabil-bg: oklch(0.987 0.022 95);
+  --v-uman-fg: oklch(0.48 0.2 300);
+  --v-uman-bg: oklch(0.977 0.014 308);
+  --v-neverificat-fg: oklch(0.446 0.03 257);
+  --v-neverificat-bg: oklch(0.968 0.007 248);
+  --v-corect-fg: oklch(0.48 0.11 165);
+  --v-corect-bg: oklch(0.979 0.021 166);
+}
+.dark {
+  --ai: oklch(0.7 0.15 277);
+  --ai-soft: oklch(0.3 0.06 277);
+  --v-eroare: oklch(0.704 0.191 22);
+  --v-discutabil: oklch(0.828 0.15 75);
+  --v-uman: oklch(0.714 0.17 300);
+  --v-neverificat: oklch(0.707 0.015 260);
+  --v-corect: oklch(0.765 0.15 163);
+  --desk: oklch(0.18 0 0);
+  --paper: oklch(0.94 0 0);
+  --paper-foreground: oklch(0.2 0 0);
+  --placeholder-bg: oklch(0.88 0.1 95);
+  --fg-2: oklch(0.78 0 0);
+  --fg-3: oklch(0.72 0 0);
+  --divider: oklch(1 0 0 / 16%);
+  --focus-strong: oklch(0.78 0 0);
+  --v-eroare-fg: oklch(0.808 0.114 19.6);
+  --v-eroare-bg: oklch(0.704 0.191 22 / 14%);
+  --v-discutabil-fg: oklch(0.879 0.169 91.6);
+  --v-discutabil-bg: oklch(0.769 0.188 70 / 14%);
+  --v-uman-fg: oklch(0.827 0.108 306);
+  --v-uman-bg: oklch(0.714 0.17 300 / 16%);
+  --v-neverificat-fg: oklch(0.869 0.022 252);
+  --v-neverificat-bg: oklch(0.707 0.015 260 / 16%);
+  --v-corect-fg: oklch(0.845 0.143 165);
+  --v-corect-bg: oklch(0.696 0.17 162 / 14%);
+}
+@theme inline {
+  --color-ai: var(--ai);
+  --color-ai-soft: var(--ai-soft);
+  --color-v-eroare: var(--v-eroare);
+  --color-v-discutabil: var(--v-discutabil);
+  --color-v-uman: var(--v-uman);
+  --color-v-neverificat: var(--v-neverificat);
+  --color-v-corect: var(--v-corect);
+  --color-desk: var(--desk);
+  --color-paper: var(--paper);
+  --color-paper-foreground: var(--paper-foreground);
+  --color-placeholder-bg: var(--placeholder-bg);
+  --text-md: 0.875rem;
+  --text-md--line-height: 1.375rem;
+  --color-fg-2: var(--fg-2);
+  --color-fg-3: var(--fg-3);
+  --color-divider: var(--divider);
+  --color-focus-strong: var(--focus-strong);
+  --color-v-eroare-fg: var(--v-eroare-fg);
+  --color-v-eroare-bg: var(--v-eroare-bg);
+  --color-v-discutabil-fg: var(--v-discutabil-fg);
+  --color-v-discutabil-bg: var(--v-discutabil-bg);
+  --color-v-uman-fg: var(--v-uman-fg);
+  --color-v-uman-bg: var(--v-uman-bg);
+  --color-v-neverificat-fg: var(--v-neverificat-fg);
+  --color-v-neverificat-bg: var(--v-neverificat-bg);
+  --color-v-corect-fg: var(--v-corect-fg);
+  --color-v-corect-bg: var(--v-corect-bg);
+}
+
+/* ───────────── LexAI: editorul de documente (features/editor, docs/ux/05-editor.md) ─────────────
+   Foaia A4 rămâne deschisă la culoare și în tema întunecată, deci culorile din foaie sunt fixe. */
+.lex-sheet {
+  --hl-eroare: oklch(0.577 0.215 27);
+  --hl-discutabil: oklch(0.666 0.157 58);
+  --hl-uman: oklch(0.541 0.2 300);
+  --hl-neverificat: oklch(0.556 0.015 260);
+  --hl-corect: oklch(0.596 0.145 163);
+  --sheet-ai: oklch(0.51 0.2 277);
+  --sheet-select: oklch(0.62 0.17 255);
+  color: var(--paper-foreground);
+  color-scheme: light;
+  font-kerning: normal;
+}
+/* paginile (ca Print Layout din Word): foi albe în spatele textului, cu fundalul mesei între ele */
+.lex-pages { position: absolute; inset: 0; pointer-events: none; }
+.lex-page { position: absolute; inset-inline: 0; background: var(--paper); border-radius: 2px; box-shadow: 0 0 0 var(--hairline) oklch(0 0 0 / 0.08), 0 1px 2px oklch(0 0 0 / 0.06), 0 6px 24px oklch(0 0 0 / 0.07); }
+.lex-flow { position: relative; }
+/* antetul și subsolul (din DOCX), pe fiecare pagină, estompate ca în Word cât se lucrează în corp */
+.lex-zone { position: absolute; color: var(--paper-foreground); opacity: 0.62; }
+.lex-zone > :last-child { margin-bottom: 0; }
+/* spațiile dintre pagini (decorații din pagination/extension.ts): nu se selectează și nu primesc click */
+.lex-page-spacer { user-select: none; pointer-events: none; }
+div.lex-page-spacer { display: block; }
+span.lex-page-spacer { display: inline-block; width: 100%; vertical-align: top; }
+.lex-sheet .ProseMirror tr.lex-page-spacer > td { padding: 0; border: none; background: none; }
+.lex-sheet .lex-push { padding-top: var(--lex-push); }
+.lex-sheet ::selection { background: oklch(0.85 0.08 255 / 0.7); }
+.lex-sheet .ProseMirror { display: flow-root; outline: none; min-height: var(--lex-flow-min, 0); overflow-wrap: break-word; }
+.lex-sheet :is(.ProseMirror, .lex-zone) p { margin: 0 0 var(--para-after, 6pt); min-height: 1em; }
+.lex-sheet :is(.ProseMirror, .lex-zone) :is(td, th) > p:last-child { margin-bottom: 0; }
+.lex-sheet :is(.ProseMirror, .lex-zone) :is(h1, h2, h3, h4) { font-weight: 700; margin: 12pt 0 6pt; line-height: 1.15; }
+.lex-sheet :is(.ProseMirror, .lex-zone) h1 { font-size: 16pt; }
+.lex-sheet :is(.ProseMirror, .lex-zone) h2 { font-size: 14pt; }
+.lex-sheet :is(.ProseMirror, .lex-zone) h3 { font-size: 13pt; }
+.lex-sheet :is(.ProseMirror, .lex-zone) h4 { font-size: 12pt; font-style: italic; }
+.lex-sheet :is(.ProseMirror, .lex-zone) :is(ul, ol) { margin: 0; padding-inline-start: 36pt; }
+.lex-sheet :is(.ProseMirror, .lex-zone) ul { list-style: disc; }
+.lex-sheet :is(.ProseMirror, .lex-zone) ul ul { list-style: circle; }
+.lex-sheet :is(.ProseMirror, .lex-zone) ul ul ul { list-style: square; }
+.lex-sheet :is(.ProseMirror, .lex-zone) ol { list-style: decimal; }
+/* enumerările din acte: „a)”, „b)” (orderedList cu type "a") */
+.lex-sheet :is(.ProseMirror, .lex-zone) ol[type="a"] { list-style: lower-alpha; }
+.lex-sheet :is(.ProseMirror, .lex-zone) ol[type="a"] > li::marker { content: counter(list-item, lower-alpha) ") "; }
+.lex-sheet :is(.ProseMirror, .lex-zone) li > p { margin: 0; }
+.lex-sheet :is(.ProseMirror, .lex-zone) a { color: #0563c1; text-decoration: underline; }
+/* fără margini verticale: un spațiu de pagină dinaintea ei o împinge exact cât înălțimea lui */
+.lex-sheet :is(.ProseMirror, .lex-zone) hr { border: 0; margin: 0; padding: 0 0 6pt; height: 1px; box-sizing: content-box; background: currentColor; background-clip: content-box; }
+.lex-sheet :is(.ProseMirror, .lex-zone) sub, .lex-sheet :is(.ProseMirror, .lex-zone) sup { font-size: 0.7em; }
+.lex-sheet .ProseMirror .tableWrapper { margin: 6pt 0; overflow-x: auto; }
+.lex-sheet :is(.ProseMirror, .lex-zone) table { border-collapse: collapse; table-layout: fixed; width: 100%; margin: 0; }
+.lex-sheet :is(.ProseMirror, .lex-zone) :is(td, th) { position: relative; min-width: 1em; padding: 1pt 5.4pt; vertical-align: top; border: 0.5pt solid oklch(0.2 0 0); box-sizing: border-box; }
+.lex-sheet :is(.ProseMirror, .lex-zone) th { font-weight: 700; text-align: start; }
+.lex-sheet .ProseMirror .selectedCell::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: oklch(0.62 0.17 255 / 0.14); }
+.lex-sheet .ProseMirror .column-resize-handle { position: absolute; top: 0; bottom: -2px; right: -2px; width: 4px; z-index: 3; pointer-events: none; background: var(--sheet-select); }
+.lex-sheet .ProseMirror.resize-cursor { cursor: col-resize; }
+.lex-sheet .ProseMirror p.is-editor-empty:first-child::before { content: attr(data-empty-hint); float: inline-start; height: 0; pointer-events: none; color: oklch(0.6 0 0); }
+.lex-sheet .ProseMirror-selectednode { outline: 2px solid var(--sheet-select); outline-offset: 1px; }
+/* imaginile: inline, cel mult cât lățimea textului; colțurile de redimensionare apar la selectare */
+.lex-sheet img { display: inline-block; max-width: 100%; height: auto; vertical-align: bottom; }
+.lex-sheet [data-resize-container] { max-width: 100%; vertical-align: bottom; line-height: 0; }
+.lex-sheet [data-resize-wrapper] { max-width: 100%; }
+.lex-sheet [data-resize-handle] { width: 9px; height: 9px; margin: -4px; border: 1px solid var(--sheet-select); background: var(--paper); border-radius: 2px; opacity: 0; z-index: 1; }
+.lex-sheet [data-resize-handle="top-left"], .lex-sheet [data-resize-handle="bottom-right"] { cursor: nwse-resize; }
+.lex-sheet [data-resize-handle="top-right"], .lex-sheet [data-resize-handle="bottom-left"] { cursor: nesw-resize; }
+.lex-sheet .ProseMirror[contenteditable="true"] .ProseMirror-selectednode [data-resize-handle], .lex-sheet [data-resize-state="true"] [data-resize-handle] { opacity: 1; }
+
+/* saltul de pagină: încheie pagina (blocul următor începe pe pagina nouă). Rămâne un marcaj discret,
+   ca la Word cu marcajele de formatare afișate; fără margini verticale (vezi pagination/extension.ts) */
+.lex-page-break { position: relative; height: 1.5em; margin: 0; user-select: none; cursor: default; }
+.lex-page-break::before { content: ""; position: absolute; inset-inline: 0; top: 50%; border-top: 1px dotted oklch(0.78 0 0); }
+.lex-page-break::after { content: "Salt de pagină"; position: absolute; left: 50%; top: 50%; translate: -50% -50%; padding: 0 8px; background: var(--paper); color: oklch(0.66 0 0); font: 500 10px/1 var(--font-sans), system-ui, sans-serif; letter-spacing: 0.02em; }
+.lex-page-break:hover::before { border-top-color: oklch(0.62 0 0); }
+.lex-page-break:hover::after { color: oklch(0.52 0 0); }
+.lex-page-break.ProseMirror-selectednode { outline: none; }
+.lex-page-break.ProseMirror-selectednode::before { border-top: 1px dashed var(--sheet-select); }
+.lex-page-break.ProseMirror-selectednode::after { color: var(--sheet-select); }
+
+/* câmpurile de completat [● …] */
+.lex-placeholder { background: var(--placeholder-bg); border-radius: 4px; padding: 0 2px; box-shadow: inset 0 0 0 1px oklch(0.74 0.13 85 / 0.55); box-decoration-break: clone; -webkit-box-decoration-break: clone; cursor: pointer; }
+
+/* sugestiile AI: inserat subliniat în culoarea AI, șters tăiat */
+.lex-suggest-ins { color: var(--sheet-ai); background: oklch(0.51 0.2 277 / 0.08); text-decoration: underline 1.5px var(--sheet-ai); text-underline-offset: 2px; }
+.lex-suggest-del { color: oklch(0.5 0.17 27); background: oklch(0.577 0.215 27 / 0.06); text-decoration: line-through 1.5px oklch(0.577 0.215 27); }
+
+/* evidențierile constatărilor (docs/ux/08-rezultate-analiza.md, „Culori pe stări”) */
+.lex-hl { --hl-bg: transparent; border-radius: 2px; cursor: pointer; text-underline-offset: 3px; text-decoration-skip-ink: none; box-decoration-break: clone; -webkit-box-decoration-break: clone; background-color: var(--hl-bg); transition: background-color 150ms ease-out, text-decoration-color 150ms ease-out; }
+.lex-hl-eroare_citare { --hl: var(--hl-eroare); --hl-bg: color-mix(in oklch, var(--hl-eroare) 15%, transparent); text-decoration: underline solid 2px var(--hl-eroare); }
+.lex-hl-interpretare_discutabila { --hl: var(--hl-discutabil); --hl-bg: color-mix(in oklch, var(--hl-discutabil) 18%, transparent); text-decoration: underline wavy 1.5px var(--hl-discutabil); }
+.lex-hl-necesita_analiza_umana { --hl: var(--hl-uman); --hl-bg: color-mix(in oklch, var(--hl-uman) 15%, transparent); text-decoration: underline double 3px var(--hl-uman); }
+.lex-hl-neverificat { --hl: var(--hl-neverificat); text-decoration: underline dotted 2px var(--hl-neverificat); }
+.lex-hl-corect { --hl: var(--hl-corect); cursor: text; }
+.lex-show-corect .lex-hl-corect { cursor: pointer; text-decoration: underline solid 1px var(--hl-corect); }
+.lex-hl-active { outline: 1px solid var(--hl); outline-offset: 0; background: color-mix(in oklch, var(--hl) 25%, transparent); }
+/* constatare selectată (docs/ux/08b, 5.9): celelalte evidențieri scad la 50 % (fundal și subliniere);
+   textul rămâne la contrast întreg, iar evidențierile estompate rămân clicabile */
+.lex-has-active-hl .lex-hl:not(.lex-hl-active, .lex-hl-current) { background-color: color-mix(in oklch, var(--hl-bg) 50%, transparent); text-decoration-color: color-mix(in oklch, var(--hl) 50%, transparent); }
+.lex-hl-active.lex-hl-pulse-0 { animation: lex-pulse-a 0.9s ease-out 2; }
+.lex-hl-active.lex-hl-pulse-1 { animation: lex-pulse-b 0.9s ease-out 2; }
+@keyframes lex-pulse-a { from { box-shadow: 0 0 0 0 color-mix(in oklch, var(--hl) 55%, transparent); } to { box-shadow: 0 0 0 6px transparent; } }
+@keyframes lex-pulse-b { from { box-shadow: 0 0 0 0 color-mix(in oklch, var(--hl) 55%, transparent); } to { box-shadow: 0 0 0 6px transparent; } }
+
+/* chatul din editor (docs/ux/18-chat-editor.md): selecția trimisă rămâne vizibilă cât focusul e în
+   panou; pasajul modificării aflate sub mouse are contur, iar evidențierile analizei scad la 50 % */
+.lex-chat-scope { background-color: oklch(0.62 0.17 255 / 0.16); border-radius: 2px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.ProseMirror-focused .lex-chat-scope { background-color: transparent; }
+.lex-chat-target { background-color: oklch(0.93 0.08 155 / 0.85); outline: 1px solid oklch(0.32 0 0); outline-offset: 1px; border-radius: 2px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+/* modificări structurale: paragrafele înlocuite au contur și fundal de șters; locul unei inserări e o
+   linie de 2 px sub / deasupra blocului vecin (box-shadow: nu mută textul, deci nici paginarea) */
+.lex-chat-target-block { outline: 1px solid oklch(0.32 0 0); outline-offset: 2px; background-color: oklch(0.94 0.05 25 / 0.7); border-radius: 2px; }
+.lex-chat-insert-after { box-shadow: 0 3px 0 -1px oklch(0.55 0.14 155); }
+.lex-chat-insert-before { box-shadow: 0 -3px 0 -1px oklch(0.55 0.14 155); }
+.lex-chat-previewing .lex-hl:not(:has(.lex-chat-target)) { background-color: color-mix(in oklch, var(--hl-bg) 50%, transparent); text-decoration-color: color-mix(in oklch, var(--hl) 50%, transparent); }
+
+/* căutare */
+.lex-find { background: oklch(0.92 0.13 95 / 0.75); border-radius: 2px; }
+.lex-find-active { background: oklch(0.82 0.16 70); box-shadow: 0 0 0 1px oklch(0.7 0.16 60); }
+
+/* compararea versiunilor */
+.lex-diff-ins { color: inherit; background: oklch(0.93 0.08 155); text-decoration: underline 1px oklch(0.6 0.14 155); text-underline-offset: 2px; }
+.lex-diff-del { color: oklch(0.45 0.15 25); background: oklch(0.94 0.05 25); text-decoration: line-through 1px oklch(0.55 0.18 25); }
+.lex-sheet [data-diff] { position: relative; }
+.lex-sheet [data-diff]::before { content: ""; position: absolute; top: var(--lex-push, 0); bottom: 0; inset-inline-start: calc(-1 * var(--sheet-ml, 25mm) + 4mm); width: 3px; border-radius: 2px; background: oklch(0.7 0.13 70); }
+.lex-sheet [data-diff="added"]::before { background: oklch(0.62 0.14 155); }
+.lex-sheet [data-diff="removed"]::before { background: oklch(0.6 0.19 25); }
+.lex-sheet [data-diff="format"]::before { background: oklch(0.65 0 0); }
+.lex-sheet .lex-diff-current { outline: 2px solid var(--sheet-select); outline-offset: 1px; border-radius: 2px; }
+.lex-readonly .ProseMirror { cursor: default; }
+
+.lex-desk { scrollbar-gutter: stable; }
+@media (prefers-reduced-motion: reduce) {
+  .lex-hl-active.lex-hl-pulse-0, .lex-hl-active.lex-hl-pulse-1 { animation: none; }
+  .lex-hl { transition: none; }
+}
+@media print {
+  .lex-hl, .lex-find, .lex-find-active, .lex-chat-scope, .lex-chat-target, .lex-chat-target-block { background: none; text-decoration: none; outline: none; }
+  .lex-chat-insert-after, .lex-chat-insert-before { box-shadow: none; }
+  .lex-page { box-shadow: none; }
+}
+
+/* aplicația desktop pe macOS (apps/desktop): fereastră fără bară de titlu; bara aplicației ține loc
+   de ea și lasă loc butoanelor ferestrei (mai puțin pe ecran complet, unde ele dispar).
+   Pe Windows fereastra are bara de titlu a sistemului. */
+[data-desktop="mac"] [data-titlebar] { -webkit-app-region: drag; }
+[data-desktop="mac"] [data-titlebar] :is(a, button, input, select, textarea, label, [role="button"], [role="combobox"], [role="tab"], [tabindex]) { -webkit-app-region: no-drag; }
+[data-desktop="mac"]:not([data-fullscreen]) [data-titlebar] { padding-inline-start: 96px; }

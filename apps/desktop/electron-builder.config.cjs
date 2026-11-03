@@ -4,16 +4,16 @@
 // linia de comandă (vezi scripturile din package.json).
 //
 // Din mediu (le setează workflow-ul de release, .github/workflows/release.yml):
-// - LEXAI_UPDATES_REPO="proprietar/repo": publică în GitHub Releases (ca ciornă, publicată de
-//   workflow după ce toate platformele au fost încărcate) și activează actualizările
-//   automate (electron-updater citește de acolo). Fără el, build-ul e local, fără actualizări.
-//   LEXAI_UPDATES_URL="http://…" face la fel cu un server HTTP oarecare (pentru teste).
+// - LEXAI_UPDATES_REPO="proprietar/repo" (implicit A-Raileanu/LexAI): de aici citește aplicația
+//   versiunile noi (electron-updater) și aici publică `--publish always` (ca ciornă, publicată de
+//   workflow după ce toate platformele au fost încărcate). Gol = fără actualizări.
+//   LEXAI_UPDATES_URL="http://…" le ia în schimb de pe un server HTTP oarecare (pentru teste).
 // - CSC_LINK + CSC_KEY_PASSWORD: certificatul Developer ID pentru macOS (semnare reală, hardened
 //   runtime). Cu APPLE_ID, APPLE_APP_SPECIFIC_PASSWORD și APPLE_TEAM_ID, aplicația e și notarizată.
 //   Fără certificat, semnătura e ad-hoc: rulează pe Mac-ul tău, dar nu se actualizează singură.
 
-const updatesRepo = process.env.LEXAI_UPDATES_REPO?.trim();
 const updatesUrl = process.env.LEXAI_UPDATES_URL?.trim();
+const updatesRepo = updatesUrl ? "" : (process.env.LEXAI_UPDATES_REPO ?? "A-Raileanu/LexAI").trim();
 const [owner, repo] = updatesRepo ? updatesRepo.split("/") : [];
 if (updatesRepo && (!owner || !repo)) throw new Error(`LEXAI_UPDATES_REPO trebuie să fie „proprietar/repo” (acum: ${updatesRepo}).`);
 const developerId = Boolean(process.env.CSC_LINK || process.env.CSC_NAME);

@@ -90,7 +90,7 @@ Cum funcționează aplicația împachetată:
 - **Lucrul în paralel:** aplicația și `pnpm dev` pot rula deodată pe aceleași date; un singur worker preia joburi (lacătul `worker.pid` din dosarul de date), iar celălalt așteaptă.
 - **Jurnalele** serviciilor sunt în `Documents/LexAI/jurnale` (meniul Ajutor).
 
-Build-urile locale nu au certificat de semnare (Mac: semnătură ad-hoc; Windows: nesemnat) și nici actualizări automate. Configurația e în `apps/desktop/electron-builder.config.cjs`.
+Build-urile locale nu au certificat de semnare (Mac: semnătură ad-hoc; Windows: nesemnat). Caută actualizări în Releases-urile acestui repo (`LEXAI_UPDATES_REPO=""` le oprește). Configurația e în `apps/desktop/electron-builder.config.cjs`.
 
 ### Publicarea unei versiuni
 

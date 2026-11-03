@@ -58,6 +58,18 @@ jobs:
           pnpm lint
           pnpm test
 
+      # electron-builder încarcă arm64 și x64 în paralel: fără o ciornă existentă, fiecare își
+      # creează una și fișierele ajung împărțite în două versiuni cu același tag
+      - name: Ciorna versiunii
+        env:
+          GH_TOKEN: ${{ secrets.RELEASES_TOKEN || secrets.GITHUB_TOKEN }}
+          REPO: ${{ vars.LEXAI_UPDATES_REPO || github.repository }}
+        run: |
+          version=$(node -p "require('./apps/desktop/package.json').version")
+          if ! gh api "repos/$REPO/releases" --jq ".[] | select(.tag_name == \"v$version\") | .id" | grep -q .; then
+            gh release create "v$version" --repo "$REPO" --draft --title "LexAI $version" --notes ""
+          fi
+
       - name: Construiește și publică
         env:
           GH_TOKEN: ${{ secrets.RELEASES_TOKEN || secrets.GITHUB_TOKEN }}
@@ -84,4 +96,8 @@ jobs:
           REPO: ${{ vars.LEXAI_UPDATES_REPO || github.repository }}
         run: |
           version=$(node -p "require('./apps/desktop/package.json').version")
+          assets=$(gh release view "v$version" --repo "$REPO" --json assets --jq '.assets[].name')
+          for f in latest-mac.yml latest.yml "LexAI-$version-mac-arm64.dmg" "LexAI-$version-mac-x64.dmg" "LexAI-$version-win-x64.exe"; do
+            grep -qx "$f" <<< "$assets" || { echo "::error::Lipsește $f din ciorna v$version"; exit 1; }
+          done
           gh release edit "v$version" --repo "$REPO" --draft=false --latest

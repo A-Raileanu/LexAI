@@ -8,7 +8,6 @@ import { ClaudeAccountSection, ClaudeDisconnectedAlert } from "@/features/settin
 import { getClaudeAccount } from "@/features/settings/claude-status";
 import { sourcesSnapshot } from "@/features/settings/data";
 import { SectionSkeleton } from "@/features/settings/section";
-import { SettingsNav } from "@/features/settings/settings-nav";
 import { SourcesSection } from "@/features/settings/sources-list";
 import { getSettings } from "@/server/settings";
 
@@ -44,31 +43,27 @@ async function TopAlert() {
 
 export default function SettingsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl gap-10 px-4 py-8 sm:px-8">
-      <SettingsNav variant="side" />
-      <div className="flex min-w-0 max-w-3xl flex-1 flex-col gap-8">
-        <PageTitle title="Setări" description="Surse legale, comportamentul AI și contul Claude." />
-        <Suspense fallback={null}>
-          <TopAlert />
-        </Suspense>
-        <SettingsNav variant="top" />
-        <Suspense fallback={<SectionSkeleton id="surse" title="Surse legale" rows={3} />}>
-          <Sources />
-        </Suspense>
-        <Suspense
-          fallback={
-            <>
-              <SectionSkeleton id="ai" title="AI și procesare" />
-              <SectionSkeleton id="analiza" title="Analiză" rows={1} />
-            </>
-          }
-        >
-          <Ai />
-        </Suspense>
-        <Suspense fallback={<SectionSkeleton id="cont-claude" title="Cont Claude" rows={1} />}>
-          <ClaudeAccount />
-        </Suspense>
-      </div>
+    <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-4 py-8 sm:px-8">
+      <PageTitle title="Setări" description="Surse legale, comportamentul AI și contul Claude." />
+      <Suspense fallback={null}>
+        <TopAlert />
+      </Suspense>
+      <Suspense fallback={<SectionSkeleton id="surse" title="Surse legale" rows={3} />}>
+        <Sources />
+      </Suspense>
+      <Suspense
+        fallback={
+          <>
+            <SectionSkeleton id="ai" title="AI și procesare" />
+            <SectionSkeleton id="analiza" title="Analiză" rows={1} />
+          </>
+        }
+      >
+        <Ai />
+      </Suspense>
+      <Suspense fallback={<SectionSkeleton id="cont-claude" title="Cont Claude" rows={1} />}>
+        <ClaudeAccount />
+      </Suspense>
     </div>
   );
 }

@@ -68,7 +68,7 @@
 └────────┴──────────────────────────────────────────────────────────────────────┘
 ```
 - **O singură pagină derulabilă**, cu ancore (`/setari#surse`), nu sub-rute: sunt 6 secțiuni scurte, iar utilizatorul unic vrea să vadă totul dintr-o privire. Doar terminalul are rută proprie.
-- **Navigația secundară** „Pe pagină” e o listă de ancore sticky în stânga coloanei (scroll-spy), afișată doar de la ≥1280 px. Sub acest prag, ancorele devin un rând de Tabs sticky sus.
+- **Navigația secundară** „Pe pagină” (scoasă la cererea utilizatorului, 2026-11-03: pagina e destul de scurtă fără ea) e o listă de ancore sticky în stânga coloanei (scroll-spy), afișată doar de la ≥1280 px. Sub acest prag, ancorele devin un rând de Tabs sticky sus.
 - **Ordinea secțiunilor** urmează frecvența și riscul: Securitate → Sesiuni → Surse legale → AI → Analiză → Cont Claude. Contul Claude e ultimul, dar are un indicator de stare dublat în header-ul paginii când e deconectat (Alert sus: „Claude nu e conectat. Analizele nu pot rula.” + „Deschide terminalul”).
 - **Primar:** controalele din fiecare rând. **Secundar:** descrierile și meta (ora, IP, mărimea cache-ului). **Acțiuni distructive** (revocare, golire cache) stau în varianta ghost / outline și cer confirmare în Alert dialog.
 - **Schimbarea PIN-ului** se face într-un **Dialog** cu 3 pași în același cadru (PIN curent → PIN nou → confirmare), cu Input OTP, aceeași mecanică ca `/setup`. Greșelile la PIN-ul curent se contorizează în aceeași limită de rată ca la login.

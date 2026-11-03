@@ -53,7 +53,7 @@ module.exports = {
     extendInfo: { CFBundleDevelopmentRegion: "ro" },
   },
   dmg: { title: "LexAI" },
-  win: { target: ["nsis"], icon: "resources/icon.png" },
+  win: { target: ["nsis"], icon: "resources/icon-win.png" },
   nsis: {
     oneClick: false,
     perMachine: false,

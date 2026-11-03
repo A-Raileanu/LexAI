@@ -69,7 +69,12 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           # fără certificat: semnătură ad-hoc, fără căutarea unei identități în keychain
           CSC_IDENTITY_AUTO_DISCOVERY: ${{ secrets.CSC_LINK != '' }}
-        run: pnpm --filter @lexai/desktop release
+        # secretele lipsă ajung ca șiruri goale; electron-builder ar citi CSC_LINK="" ca o cale
+        run: |
+          for v in CSC_LINK CSC_KEY_PASSWORD APPLE_ID APPLE_APP_SPECIFIC_PASSWORD APPLE_TEAM_ID; do
+            [ -n "${!v}" ] || unset "$v"
+          done
+          pnpm --filter @lexai/desktop release
 
       # electron-builder încarcă totul într-o ciornă; o publicăm abia când sunt toate fișierele,
       # ca aplicațiile să nu vadă o versiune pe jumătate încărcată

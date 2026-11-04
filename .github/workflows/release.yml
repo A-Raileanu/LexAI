@@ -1,8 +1,6 @@
 # Publică o versiune nouă a aplicației desktop în GitHub Releases, de unde o iau actualizările
-# automate (electron-updater). Pornește la un tag „v<versiune>” egal cu versiunea din
-# apps/desktop/package.json:
-#
-#   git tag v0.2.0 && git push origin v0.2.0
+# automate (electron-updater). Versiunile se construiesc pe Mac-ul local și se urcă în release;
+# acest workflow pornește doar manual, nu la un tag.
 #
 # Construiește pe un singur Mac: DMG + ZIP pentru Apple Silicon și Intel, instalatorul Windows x64.
 #
@@ -14,9 +12,8 @@
 # - secrets.APPLE_ID, APPLE_APP_SPECIFIC_PASSWORD, APPLE_TEAM_ID: notarizarea la Apple.
 name: Release
 
+# Build-urile se fac pe Mac-ul local: un tag nou nu pornește nimic aici.
 on:
-  push:
-    tags: ["v*"]
   workflow_dispatch:
 
 permissions:

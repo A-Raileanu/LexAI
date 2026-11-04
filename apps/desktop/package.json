@@ -1,7 +1,7 @@
 {
   "name": "@lexai/desktop",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "LexAI \u2014 aplica\u021bia desktop (Electron)",
   "author": "LexAI",
   "type": "module",

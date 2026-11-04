@@ -10,10 +10,11 @@
 // în Node-ul din Electron; contează doar platforma și arhitectura binarului, alese aici.
 //
 // Opțiuni: --skip-web refolosește build-ul Next existent; --targets mac-arm64,mac-x64,win-x64
-// (implicit platforma acestui calculator).
+// (implicit platforma acestui calculator); --flat aplică și pe macOS structura plată de pe Windows,
+// ca ea să poată fi pornită și testată pe un Mac.
 import { execFileSync } from "node:child_process";
 import { builtinModules } from "node:module";
-import { chmodSync, cpSync, existsSync, mkdirSync, readdirSync, readFileSync, realpathSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { chmodSync, cpSync, existsSync, lstatSync, mkdirSync, readdirSync, readFileSync, realpathSync, rmSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { build } from "esbuild";
 
@@ -21,6 +22,7 @@ const desktop = path.resolve(import.meta.dirname, "..");
 const repo = path.resolve(desktop, "..", "..");
 const web = path.join(repo, "apps", "web");
 const skipWeb = process.argv.includes("--skip-web");
+const flatAll = process.argv.includes("--flat");
 const NODE_OS = { mac: "darwin", win: "win32" };
 const hostKey = `${process.platform === "win32" ? "win" : "mac"}-${process.arch}`;
 const targetsArg = process.argv.find((a) => a.startsWith("--targets="))?.slice("--targets=".length);
@@ -94,17 +96,107 @@ const prune = (dir, keep) => {
   for (const e of readdirSync(dir)) if (!keep(e)) rmSync(path.join(dir, e), { recursive: true, force: true });
 };
 
-/** Înlocuiește fiecare legătură simbolică din `dir` cu o copie a țintei ei (și pe cele din copii). */
-const materializeLinks = (dir) => {
-  for (const e of readdirSync(dir, { withFileTypes: true })) {
-    const p = path.join(dir, e.name);
-    if (e.isSymbolicLink()) {
-      const real = realpathSync(p);
-      rmSync(p, { force: true });
-      cpSync(real, p, { recursive: true, verbatimSymlinks: true });
-      if (statSync(p).isDirectory()) materializeLinks(p);
-    } else if (e.isDirectory()) materializeLinks(p);
+/** Numele din node_modules (cu tot cu scope) din `nm`, ca [nume, cale]. */
+const packagesIn = (nm) => {
+  if (!existsSync(nm)) return [];
+  return readdirSync(nm)
+    .filter((e) => !e.startsWith("."))
+    .flatMap((e) => (e.startsWith("@") ? readdirSync(path.join(nm, e)).map((s) => `${e}/${s}`) : [e]))
+    .map((name) => [name, path.join(nm, name)]);
+};
+
+/**
+ * Înlocuiește structura pnpm (legături simbolice spre node_modules/.pnpm) cu un node_modules plat,
+ * ca al lui npm. O simplă copie a țintei unei legături nu ajunge: Node își caută dependențele urcând
+ * din locul pachetului, iar la pnpm ele stau lângă el, în .pnpm/<pachet>/node_modules, nu în copie.
+ *
+ * Fiecare legătură din afara .pnpm rămâne pe loc, devenită copie; dependențele merg în
+ * node_modules de la rădăcină sau, când acolo e altă versiune, în node_modules-ul pachetului.
+ * Se apelează după ce .pnpm are forma finală: copiile nu mai primesc completările de mai târziu.
+ */
+const flattenPnpm = (webDir) => {
+  const web = realpathSync(webDir);
+  removeBrokenLinks(web);
+  const rootNm = path.join(web, "node_modules");
+  const pnpmDir = path.join(rootNm, ".pnpm");
+  const placed = new Map();
+  const packages = [];
+
+  /** Ce găsește Node pentru `name`, plecând din pachetul aflat la `from`. */
+  const resolveFrom = (from, name) => {
+    for (let dir = from; dir.startsWith(web); dir = path.dirname(dir)) {
+      if (path.basename(dir) === "node_modules") continue;
+      const hit = placed.get(path.join(dir, "node_modules", name));
+      if (hit) return hit;
+    }
+    return null;
+  };
+
+  /** Dependențele unui pachet din .pnpm: vecinii lui din .pnpm/<pachet>/node_modules. */
+  const dependenciesOf = (real) => {
+    const nm = real.slice(0, real.lastIndexOf(`${path.sep}node_modules${path.sep}`) + `${path.sep}node_modules`.length);
+    return packagesIn(nm).filter(([, p]) => p !== real).map(([name, p]) => [name, realpathSync(p)]);
+  };
+
+  const copyPackage = (real, at) => {
+    if (!real.startsWith(pnpmDir + path.sep)) throw new Error(`Legătură în afara .pnpm: ${at} → ${real}`);
+    rmSync(at, { recursive: true, force: true });
+    cpSync(real, at, { recursive: true, verbatimSymlinks: true });
+    placed.set(at, real);
+    packages.push(at);
+  };
+
+  // Întâi toate dependențele directe, apoi cele ale lor: o dependență pusă mai târziu în
+  // node_modules-ul pachetului ar putea ascunde alta, găsită deja mai sus de un pachet din interior.
+  const placeDependencies = (at, real) => {
+    const added = [];
+    for (const [name, dep] of dependenciesOf(real)) {
+      const found = resolveFrom(at, name);
+      if (found === dep) continue;
+      const slot = found ? path.join(at, "node_modules", name) : path.join(rootNm, name);
+      copyPackage(dep, slot);
+      added.push([slot, dep]);
+    }
+    for (const [slot, dep] of added) placeDependencies(slot, dep);
+  };
+
+  /** Toate legăturile din afara .pnpm: node_modules/… și alias-urile de sub .next-desktop/node_modules. */
+  const importerLinks = (dir, found = []) => {
+    for (const e of readdirSync(dir, { withFileTypes: true })) {
+      const p = path.join(dir, e.name);
+      if (p === pnpmDir) continue;
+      if (e.isSymbolicLink()) found.push(p);
+      else if (e.isDirectory()) importerLinks(p, found);
+    }
+    return found;
+  };
+
+  // ce e deja real la rădăcină (de ex. @napi-rs/canvas) își păstrează locul
+  for (const [, p] of packagesIn(rootNm)) if (!lstatSync(p).isSymbolicLink()) placed.set(p, p);
+
+  const links = importerLinks(web).map((p) => [p, realpathSync(p)]);
+  for (const [p] of links) rmSync(p, { force: true });
+  for (const [p, real] of links) copyPackage(real, p);
+
+  // Un pachet care nu are o dependență lângă el o găsește la pnpm în .pnpm/node_modules, deci acele
+  // versiuni iau primele rădăcina; altfel ar lua-o versiunea cerută de oricine ajunge primul (tslib 1
+  // în locul lui tslib 2). Excepție: pachetele aplicației, deja copiate mai sus, n-au nevoie de dublură.
+  const appPackages = new Set(links.map(([, real]) => real));
+  const hoisted = packagesIn(path.join(pnpmDir, "node_modules"))
+    .map(([name, p]) => [path.join(rootNm, name), realpathSync(p)])
+    .filter(([slot, real]) => !placed.has(slot) && !appPackages.has(real));
+  for (const [slot, real] of hoisted) copyPackage(real, slot);
+
+  for (const [at, real] of [...links, ...hoisted]) placeDependencies(at, real);
+
+  // verificarea: fiecare dependență trebuie să ducă exact la versiunea pe care o vedea sub pnpm
+  for (const at of packages) {
+    for (const [name, dep] of dependenciesOf(placed.get(at))) {
+      if (resolveFrom(at, name) !== dep) throw new Error(`${path.relative(web, at)} nu își găsește dependența ${name}.`);
+    }
   }
+  rmSync(pnpmDir, { recursive: true, force: true });
+  if (importerLinks(web).length) throw new Error(`Au rămas legături simbolice: ${importerLinks(web).join(", ")}`);
 };
 
 /** Șterge legăturile simbolice care nu mai duc nicăieri (de ex. spre pachetele scoase mai sus). */
@@ -138,8 +230,6 @@ for (const target of targets) {
   rmSync(out, { recursive: true, force: true });
   mkdirSync(out, { recursive: true });
   cpSync(standalone, path.join(out, "web"), { recursive: true, verbatimSymlinks: true });
-  // Windows: legăturile simbolice ale pnpm devin copii (nu se pot crea fără drepturi de administrator)
-  if (osName === "win") materializeLinks(path.join(out, "web"));
   cpSync(path.join(web, ".next-desktop", "static"), path.join(out, "web", "apps", "web", ".next-desktop", "static"), { recursive: true });
   if (existsSync(path.join(web, "public")) && readdirSync(path.join(web, "public")).length) cpSync(path.join(web, "public"), path.join(out, "web", "apps", "web", "public"), { recursive: true });
   // sursele copiate de urmărirea fișierelor nu sunt folosite la rulare
@@ -199,6 +289,9 @@ for (const target of targets) {
     prune(path.join(pnpmDir, "node_modules"), (d) => d !== "sharp" && d !== "@img");
     removeBrokenLinks(path.join(out, "web", "node_modules"));
   }
+  // Windows: legăturile simbolice nu se pot crea fără drepturi de administrator, iar căile din .pnpm
+  // depășesc limita de 260 de caractere. Ultimul pas pe web: copiile trebuie să aibă binarele țintei.
+  if (osName === "win" || flatAll) flattenPnpm(path.join(out, "web"));
 
   // migrările și reperul pentru încărcarea dinamică din pdf.ts
   cpSync(path.join(repo, "packages", "db", "drizzle"), path.join(appRoot, "packages", "db", "drizzle"), { recursive: true });
